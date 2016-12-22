@@ -9,6 +9,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_margin="12dp"
+        android:adjustViewBounds="true"
         android:src="@drawable/books" />
     <TextView
     android:id="@+id/titulo"
