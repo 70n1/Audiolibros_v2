@@ -3,9 +3,11 @@ package com.example.audiolibros;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -61,23 +63,40 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.menu_preferencias) {
+            Toast.makeText(this, "Preferencias", Toast.LENGTH_LONG).show();
             return true;
-        }
-
+        } else if (id == R.id.menu_ultimo) {
+            irUltimoVisitado();
+            return true;
+        } else if (id == R.id.menu_buscar) {
+            return true;
+        } else if (id == R.id.menu_acerca) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Mensaje de Acerca De");
+            builder.setPositiveButton(android.R.string.ok, null);
+            builder.create().show();
+            return true; }
         return super.onOptionsItemSelected(item);
     }
+
+    public void irUltimoVisitado() {
+        SharedPreferences pref = getSharedPreferences(
+                "com.example.audiolibros_internal", MODE_PRIVATE);
+        int id = pref.getInt("ultimo", -1);
+        if (id >= 0) {
+            mostrarDetalle(id);
+        } else {
+            Toast.makeText(this,"Sin última vista",Toast.LENGTH_LONG).show();
+        }
+    }
+
     public void mostrarDetalle(int id) {
         DetalleFragment detalleFragment = (DetalleFragment) getFragmentManager().findFragmentById(R.id.detalle_fragment);
         if (detalleFragment != null) {  //estamos en una tableta
@@ -93,5 +112,10 @@ public class MainActivity extends AppCompatActivity {
             transaccion.addToBackStack(null);
             transaccion.commit();
         }
+        SharedPreferences pref = getSharedPreferences(
+                "com.example.audiolibros_internal", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putInt("ultimo", id);
+        editor.commit();
     }
 }
