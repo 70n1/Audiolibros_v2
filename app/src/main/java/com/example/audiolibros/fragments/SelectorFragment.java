@@ -58,7 +58,7 @@ public class SelectorFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //Toast.makeText(actividad, "Seleccionado el elemento: " + recyclerView.getChildAdapterPosition(v), Toast.LENGTH_SHORT).show();
-                ((MainActivity) actividad).mostrarDetalle((int) adaptador.getItemId( recyclerView.getChildAdapterPosition(v)));
+                ((MainActivity) actividad).mostrarDetalle((int) adaptador.getItemId(recyclerView.getChildAdapterPosition(v)));
             }
         });
         adaptador.setOnItemLongClickListener(new View.OnLongClickListener() {
@@ -123,5 +123,11 @@ public class SelectorFragment extends Fragment {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onResume() {
+        ((MainActivity) getActivity()).mostrarElementos(true);
+        super.onResume();
     }
 }
