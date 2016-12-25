@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
         /*Aplicacion app = (Aplicacion) getApplication();
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         recyclerView.setAdapter(app.getAdaptador());
