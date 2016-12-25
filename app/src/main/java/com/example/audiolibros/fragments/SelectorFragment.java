@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -76,12 +77,23 @@ public class SelectorFragment extends Fragment {
                                 startActivity(Intent.createChooser(i, "Compartir"));
                                 break;
                             case 1: //Borrar
-                                vectorLibros.remove(id);
-                                adaptador.notifyDataSetChanged();
+                                Snackbar.make(v, "¿Estás seguro?", Snackbar.LENGTH_LONG).setAction("SI", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        vectorLibros.remove(id);
+                                        adaptador.notifyDataSetChanged();
+                                    }
+                                }).show();
                                 break;
                             case 2: //Insertar
+
                                 vectorLibros.add(vectorLibros.elementAt(id));
                                 adaptador.notifyDataSetChanged();
+                                Snackbar.make(v, "Libro insertado", Snackbar.LENGTH_INDEFINITE).setAction("OK", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                    }
+                                }).show();
                                 break;
                         }
                     }
