@@ -18,6 +18,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import com.example.audiolibros.AdaptadorLibros;
@@ -33,7 +35,7 @@ import java.util.Vector;
  * Created by AMARTIN on 22/12/2016.
  */
 
-public class SelectorFragment extends Fragment {
+public class SelectorFragment extends Fragment implements Animation.AnimationListener {
     private Activity actividad;
     private RecyclerView recyclerView;
     private AdaptadorLibrosFiltro adaptador;
@@ -83,8 +85,10 @@ public class SelectorFragment extends Fragment {
                                 Snackbar.make(v, "¿Estás seguro?", Snackbar.LENGTH_LONG).setAction("SI", new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        adaptador.borrar(id);
-                                        adaptador.notifyDataSetChanged();
+                                        Animation anim = AnimationUtils.loadAnimation(actividad, R.anim.menguar);
+                                        anim.setAnimationListener(SelectorFragment.this);
+                                        v.startAnimation(anim);
+                                        adaptador.borrar(id); //adaptador.notifyDataSetChanged();
                                     }
                                 }).show();
                                 break;
@@ -113,7 +117,7 @@ public class SelectorFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_selector, menu);
         MenuItem searchItem = menu.findItem(R.id.menu_buscar);
-        SearchView searchView= (SearchView) searchItem.getActionView();
+        SearchView searchView = (SearchView) searchItem.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextChange(String query) {
@@ -159,5 +163,20 @@ public class SelectorFragment extends Fragment {
     public void onResume() {
         ((MainActivity) getActivity()).mostrarElementos(true);
         super.onResume();
+    }
+
+    @Override
+    public void onAnimationStart(Animation animation) {
+
+    }
+
+    @Override
+    public void onAnimationEnd(Animation animation) {
+        adaptador.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onAnimationRepeat(Animation animation) {
+
     }
 }
