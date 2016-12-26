@@ -1,5 +1,7 @@
 package com.example.audiolibros.fragments;
 
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
@@ -35,7 +37,8 @@ import java.util.Vector;
  * Created by AMARTIN on 22/12/2016.
  */
 
-public class SelectorFragment extends Fragment implements Animation.AnimationListener {
+public class SelectorFragment extends Fragment implements Animator.AnimatorListener {
+        // utilizando anims -> implements Animation.AnimationListener {
     private Activity actividad;
     private RecyclerView recyclerView;
     private AdaptadorLibrosFiltro adaptador;
@@ -85,9 +88,17 @@ public class SelectorFragment extends Fragment implements Animation.AnimationLis
                                 Snackbar.make(v, "¿Estás seguro?", Snackbar.LENGTH_LONG).setAction("SI", new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
+                                        /*
+                                        //Utilizando anim
                                         Animation anim = AnimationUtils.loadAnimation(actividad, R.anim.menguar);
                                         anim.setAnimationListener(SelectorFragment.this);
-                                        v.startAnimation(anim);
+                                        v.startAnimation(anim);*/
+
+                                        //unitilizando animator
+                                        Animator anim = AnimatorInflater.loadAnimator(actividad, R.animator.menguar);
+                                        anim.addListener(SelectorFragment.this);
+                                        anim.setTarget(v);
+                                        anim.start();
                                         adaptador.borrar(id); //adaptador.notifyDataSetChanged();
                                     }
                                 }).show();
@@ -165,7 +176,7 @@ public class SelectorFragment extends Fragment implements Animation.AnimationLis
         super.onResume();
     }
 
-    @Override
+    /*@Override
     public void onAnimationStart(Animation animation) {
 
     }
@@ -177,6 +188,26 @@ public class SelectorFragment extends Fragment implements Animation.AnimationLis
 
     @Override
     public void onAnimationRepeat(Animation animation) {
+
+    }*/
+
+    @Override
+    public void onAnimationStart(Animator animator) {
+
+    }
+
+    @Override
+    public void onAnimationEnd(Animator animator) {
+        adaptador.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onAnimationCancel(Animator animator) {
+
+    }
+
+    @Override
+    public void onAnimationRepeat(Animator animator) {
 
     }
 }

@@ -19,23 +19,13 @@ import java.util.Vector;
  */
 
 public class AdaptadorLibros extends RecyclerView.Adapter<AdaptadorLibros.ViewHolder> {
+    //Crea Layouts a partir del XML
+    protected Vector<Libro> vectorLibros;
     private LayoutInflater inflador;
     private View.OnClickListener onClickListener;
     private View.OnLongClickListener onLongClickListener;
-
-    //Crea Layouts a partir del XML
-    protected Vector<Libro> vectorLibros;
-
     //Vector con libros a visualizar
     private Context contexto;
-
-    public void setOnItemClickListener(View.OnClickListener onClickListener) {
-        this.onClickListener = onClickListener;
-    }
-    public void setOnItemLongClickListener(View.OnLongClickListener onLongClickListener) {
-        this.onLongClickListener = onLongClickListener;
-    }
-
 
     public AdaptadorLibros(Context contexto, Vector<Libro> vectorLibros) {
         inflador = (LayoutInflater) contexto.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -43,18 +33,13 @@ public class AdaptadorLibros extends RecyclerView.Adapter<AdaptadorLibros.ViewHo
         this.contexto = contexto;
     }
 
-    //Creamos nuestro ViewHolder, con los tipos de elementos a modificar
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView portada;
-        public TextView titulo;
+    public void setOnItemClickListener(View.OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
+    }
 
-        public ViewHolder(View itemView) {
-            super(itemView);
-            portada = (ImageView) itemView.findViewById(R.id.portada);
-            portada.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-            titulo = (TextView) itemView.findViewById(R.id.titulo);
-        }
-    } // Creamos el ViewHolder con las vista de un elemento sin personalizar
+    public void setOnItemLongClickListener(View.OnLongClickListener onLongClickListener) {
+        this.onLongClickListener = onLongClickListener;
+    }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -84,11 +69,26 @@ public class AdaptadorLibros extends RecyclerView.Adapter<AdaptadorLibros.ViewHo
         });
 
         holder.titulo.setText(libro.titulo);
+        holder.itemView.setScaleX(1);
+        holder.itemView.setScaleY(1);
     }
-// Indicamos el número de elementos de la lista
 
     @Override
     public int getItemCount() {
         return vectorLibros.size();
     }
+// Indicamos el número de elementos de la lista
+
+    //Creamos nuestro ViewHolder, con los tipos de elementos a modificar
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        public ImageView portada;
+        public TextView titulo;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            portada = (ImageView) itemView.findViewById(R.id.portada);
+            portada.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+            titulo = (TextView) itemView.findViewById(R.id.titulo);
+        }
+    } // Creamos el ViewHolder con las vista de un elemento sin personalizar
 }
