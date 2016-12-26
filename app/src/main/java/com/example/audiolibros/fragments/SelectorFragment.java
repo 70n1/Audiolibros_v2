@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -38,7 +39,7 @@ import java.util.Vector;
  */
 
 public class SelectorFragment extends Fragment implements Animator.AnimatorListener {
-        // utilizando anims -> implements Animation.AnimationListener {
+    // utilizando anims -> implements Animation.AnimationListener {
     private Activity actividad;
     private RecyclerView recyclerView;
     private AdaptadorLibrosFiltro adaptador;
@@ -61,6 +62,12 @@ public class SelectorFragment extends Fragment implements Animator.AnimatorListe
         recyclerView = (RecyclerView) vista.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new GridLayoutManager(actividad, 2));
         recyclerView.setAdapter(adaptador);
+
+        DefaultItemAnimator animator = new DefaultItemAnimator();
+        animator.setAddDuration(2000);
+        animator.setMoveDuration(2000);
+        recyclerView.setItemAnimator(animator);
+
         adaptador.setOnItemClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,7 +117,8 @@ public class SelectorFragment extends Fragment implements Animator.AnimatorListe
                             case 2: //Insertar
                                 int posicion = recyclerView.getChildLayoutPosition(v);
                                 adaptador.insertar((Libro) adaptador.getItem(posicion));
-                                adaptador.notifyDataSetChanged();
+                                //adaptador.notifyDataSetChanged();
+                                adaptador.notifyItemInserted(0);
                                 Snackbar.make(v, "Libro insertado", Snackbar.LENGTH_INDEFINITE).setAction("OK", new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
