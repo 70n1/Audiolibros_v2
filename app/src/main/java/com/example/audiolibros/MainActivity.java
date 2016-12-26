@@ -26,6 +26,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.audiolibros.fragments.DetalleFragment;
+import com.example.audiolibros.fragments.PreferenciasFragment;
 import com.example.audiolibros.fragments.SelectorFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -42,11 +43,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if ((findViewById(R.id.contenedor_pequeno) != null) &&
+        /*if ((findViewById(R.id.contenedor_pequeno) != null) &&
                 (getFragmentManager().findFragmentById(R.id.contenedor_pequeno) == null)) {
             SelectorFragment primerFragment = new SelectorFragment();
             getFragmentManager().beginTransaction().add(R.id.contenedor_pequeno, primerFragment).commit();
-        }
+        }*/
+
+        int idContenedor = (findViewById(R.id.contenedor_pequeno) != null) ? R.id.contenedor_pequeno : R.id.contenedor_izquierdo;
+        SelectorFragment primerFragment = new SelectorFragment();
+        getFragmentManager().beginTransaction().add(idContenedor, primerFragment).commit();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -182,8 +187,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
         if (id == R.id.menu_preferencias) {
             //Toast.makeText(this, "Preferencias", Toast.LENGTH_LONG).show();
-            Intent i = new Intent(this, PreferenciasActivity.class);
-            startActivity(i);
+            //Intent i = new Intent(this, PreferenciasActivity.class);
+            //startActivity(i);
+            abrePreferencias();
             return true;
         } else if (id == R.id.menu_ultimo) {
             irUltimoVisitado();
@@ -244,5 +250,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
         }
+    }
+
+    public void abrePreferencias() {
+        int idContenedor = (findViewById(R.id.contenedor_pequeno) != null) ? R.id.contenedor_pequeno : R.id.contenedor_izquierdo;
+        PreferenciasFragment prefFragment = new PreferenciasFragment();
+        getFragmentManager().beginTransaction().replace(idContenedor, prefFragment).addToBackStack(null).commit();
     }
 }

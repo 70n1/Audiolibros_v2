@@ -13,6 +13,6 @@ public class PreferenciasActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportFragmentManager().beginTransaction().replace(android.R.id.content, new PreferenciasFragment()).commit();
+        getFragmentManager().beginTransaction().replace(android.R.id.content, new PreferenciasFragment()).commit();
     }
 }

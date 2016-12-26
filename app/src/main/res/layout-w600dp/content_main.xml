@@ -9,13 +9,19 @@
     tools:context="com.example.audiolibros.MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <fragment
+    <!--<fragment
         android:id="@+id/selector_fragment"
         android:name="com.example.audiolibros.fragments.SelectorFragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1" />
-
+    -->
+    <LinearLayout
+    android:id="@+id/contenedor_izquierdo"
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    android:orientation="vertical" />
     <fragment
         android:id="@+id/detalle_fragment"
         android:name="com.example.audiolibros.fragments.DetalleFragment"
