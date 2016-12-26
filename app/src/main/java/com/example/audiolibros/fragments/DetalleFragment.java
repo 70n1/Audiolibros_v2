@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.TextView;
 
+import com.android.volley.toolbox.NetworkImageView;
 import com.example.audiolibros.Aplicacion;
 import com.example.audiolibros.Libro;
 import com.example.audiolibros.MainActivity;
@@ -46,7 +47,10 @@ public class DetalleFragment extends Fragment implements View.OnTouchListener, M
         Libro libro = ((Aplicacion) getActivity().getApplication()).getVectorLibros().elementAt(id);
         ((TextView) vista.findViewById(R.id.titulo)).setText(libro.titulo);
         ((TextView) vista.findViewById(R.id.autor)).setText(libro.autor);
-        ((ImageView) vista.findViewById(R.id.portada)).setImageResource(libro.recursoImagen);
+        //((ImageView) vista.findViewById(R.id.portada)).setImageResource(libro.recursoImagen);
+        Aplicacion aplicacion = (Aplicacion) getActivity().getApplication();
+        ((NetworkImageView) vista.findViewById(R.id.portada)).setImageUrl(libro.urlImagen, aplicacion.getLectorImagenes());
+
         vista.setOnTouchListener(this);
         if (mediaPlayer != null) {
             mediaPlayer.release();
