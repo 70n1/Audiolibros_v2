@@ -77,6 +77,10 @@ public class SelectorFragment extends Fragment implements Animator.AnimatorListe
                     public void onClick(DialogInterface dialog, int opcion) {
                         switch (opcion) {
                             case 0: //Compartir
+                                Animator anim = AnimatorInflater.loadAnimator(actividad, R.animator.agrandar);
+                                anim.addListener(SelectorFragment.this);
+                                anim.setTarget(v);
+                                anim.start();
                                 Libro libro = vectorLibros.elementAt(id);
                                 Intent i = new Intent(Intent.ACTION_SEND);
                                 i.setType("text/plain");
