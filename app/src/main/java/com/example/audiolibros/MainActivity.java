@@ -3,6 +3,7 @@ package com.example.audiolibros;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -180,7 +181,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.menu_preferencias) {
-            Toast.makeText(this, "Preferencias", Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, "Preferencias", Toast.LENGTH_LONG).show();
+            Intent i = new Intent(this, PreferenciasActivity.class);
+            startActivity(i);
             return true;
         } else if (id == R.id.menu_ultimo) {
             irUltimoVisitado();
