@@ -21,6 +21,7 @@ public class Libro {
     public final static String G_SUSPENSE = "Suspense";
     public final static String[] G_ARRAY = new String[] {G_TODOS, G_EPICO,
             G_S_XIX, G_SUSPENSE };
+    public int colorVibrante = -1, colorApagado = -1;
 
     public Libro(String titulo, String autor, String urlImagen, String urlAudio, String genero, Boolean novedad, Boolean leido) {
         this.urlImagen = urlImagen;

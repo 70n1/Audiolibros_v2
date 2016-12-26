@@ -64,10 +64,25 @@ public class AdaptadorLibros extends RecyclerView.Adapter<AdaptadorLibros.ViewHo
                 Bitmap bitmap = response.getBitmap();
                 if (bitmap != null) {
                     holder.portada.setImageBitmap(bitmap);
-                    Palette palette = Palette.from(bitmap).generate();
+                    /*Palette palette = Palette.from(bitmap).generate();
                     holder.itemView.setBackgroundColor(palette.getLightMutedColor(0));
                     holder.titulo.setBackgroundColor(palette.getLightVibrantColor(0));
+                    holder.portada.invalidate();*/
                     holder.portada.invalidate();
+                    if (libro.colorApagado==-1) {
+                        Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+                            public void onGenerated(Palette palette) {
+                                libro.colorApagado = palette.getLightMutedColor(0);
+                                libro.colorVibrante = palette.getLightVibrantColor(0);
+                                holder.itemView.setBackgroundColor(palette.getLightMutedColor(0));
+                                holder.titulo.setBackgroundColor(palette.getLightVibrantColor(0));
+                                holder.portada.invalidate();
+                            }
+                        });
+                    } else {
+                        holder.itemView.setBackgroundColor(libro.colorApagado);
+                        holder.titulo.setBackgroundColor(libro.colorVibrante);
+                    }
                 }
             }
 
