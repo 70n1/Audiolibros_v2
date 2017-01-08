@@ -46,20 +46,22 @@
             android:layout_centerHorizontal="true"
             android:scaleType="fitCenter"
             tools:src="@mipmap/ic_launcher" />
+
+        <com.example.audiolibros.ZoomSeekBar.ZoomSeekBar
+            android:layout_below="@+id/portada"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:padding="20dp"
+            app:altoBar="40dp"
+            app:altoGuia="4dp"
+            app:altoNumeros="15dp"
+            app:altoPalanca="40dp"
+            app:altoRegla="10dp"
+            app:altoTexto="12dp"
+            app:anchoPalanca="10dp"
+            app:colorGuia="#FF9050"
+            app:colorPalanca="#FF0000"
+            app:colorRegla="#B0B070"
+            app:colorTexto="#00A0A0" />
     </RelativeLayout>
-    <com.example.audiolibros.ZoomSeekBar.ZoomSeekBar
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="20dp"
-        app:altoBar="40dp"
-        app:altoGuia="4dp"
-        app:altoNumeros="15dp"
-        app:altoPalanca="40dp"
-        app:altoRegla="10dp"
-        app:altoTexto="12dp"
-        app:anchoPalanca="10dp"
-        app:colorGuia="#FF9050"
-        app:colorPalanca="#FF0000"
-        app:colorRegla="#B0B070"
-        app:colorTexto="#00A0A0" />
 </android.support.v4.widget.NestedScrollView>
