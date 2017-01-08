@@ -50,7 +50,7 @@
         <com.example.audiolibros.ZoomSeekBar.ZoomSeekBar
             android:layout_below="@+id/portada"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="wrap_content"
             android:padding="20dp"
             app:altoBar="40dp"
             app:altoGuia="4dp"

@@ -7,7 +7,9 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
+
 import com.example.audiolibros.R;
 
 /**
@@ -15,6 +17,8 @@ import com.example.audiolibros.R;
  */
 
 public class ZoomSeekBar extends View {
+    Estado estado = Estado.SIN_PULSACION;
+    int antVal_0, antVal_1;
     // Valor a controlar
     private int val = 160;
 
@@ -65,6 +69,10 @@ public class ZoomSeekBar extends View {
     private Paint guiaPaint = new Paint();
     private Paint palancaPaint = new Paint();
 
+
+    // Listener
+    private ZoomSeekBarListener listener;
+
     public ZoomSeekBar(Context context, AttributeSet attrs) {
         super(context, attrs);
         float dp = getResources().getDisplayMetrics().density;
@@ -86,6 +94,101 @@ public class ZoomSeekBar extends View {
         }
         textoPaint.setAntiAlias(true);
         textoPaint.setTextAlign(Paint.Align.CENTER);
+    }
+
+    ;
+
+    public int getVal() {
+        return val;
+    }
+
+    public void setVal(int val) {
+        if (valMin <= val && val <= valMax) {
+            this.val = val;
+            escalaMin = Math.min(escalaMin, val);
+            escalaMax = Math.max(escalaMax, val);
+            if (listener != null) {
+                listener.onValChanged(val);
+            }
+            invalidate();
+        }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        int x_0, y_0, x_1, y_1;
+        x_0 = (int) event.getX(0);
+        y_0 = (int) event.getY(0);
+        int val_0 = escalaMin + (x_0 - xIni) * (escalaMax - escalaMin) / ancho;
+        if (event.getPointerCount() > 1) {
+            x_1 = (int) event.getX(1);
+            y_1 = (int) event.getY(1);
+        } else {
+            x_1 = x_0;
+            y_1 = y_0;
+
+        }
+        int val_1 = escalaMin + (x_1 - xIni) * (escalaMax - escalaMin) / ancho;
+        switch (event.getAction() & MotionEvent.ACTION_MASK) {
+            case MotionEvent.ACTION_DOWN:
+                if (palancaRect.contains(x_0, y_0)) {
+                    estado = Estado.PALANCA_PULSADA;
+                } else if (barRect.contains(x_0, y_0)) {
+                    if (val_0 > val) val++;
+                    else val--;
+                    if (listener != null) {
+                        listener.onValChanged(val);
+                    }
+                    invalidate(barRect);
+                } else if (escalaRect.contains(x_0, y_0)) {
+                    estado = Estado.ESCALA_PULSADA;
+                    antVal_0 = val_0;
+                }
+                break;
+            case MotionEvent.ACTION_POINTER_DOWN:
+                if (estado == Estado.ESCALA_PULSADA) {
+                    if (escalaRect.contains(x_1, y_1)) {
+                        antVal_1 = val_1;
+                        estado = Estado.ESCALA_PULSADA_DOBLE;
+                    }
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+                estado = Estado.SIN_PULSACION;
+                break;
+            case MotionEvent.ACTION_POINTER_UP:
+                if (estado == Estado.ESCALA_PULSADA_DOBLE) {
+                    estado = Estado.ESCALA_PULSADA;
+                }
+                break;
+            case MotionEvent.ACTION_MOVE:
+                if (estado == Estado.PALANCA_PULSADA) {
+                    val = ponDentroRango(val_0, escalaMin, escalaMax);
+                    if (listener != null) {
+                        listener.onValChanged(val);
+                    }
+                    invalidate(barRect);
+                }
+                if (estado == Estado.ESCALA_PULSADA_DOBLE) {
+                    escalaMin = antVal_0 + (xIni - x_0) * (antVal_0 - antVal_1) / (x_0 - x_1);
+                    escalaMin = ponDentroRango(escalaMin, valMin, val);
+                    escalaMax = antVal_0 + (ancho + xIni - x_0) * (antVal_0 - antVal_1) / (x_0 - x_1);
+                    escalaMax = ponDentroRango(escalaMax, val, valMax);
+                    invalidate();
+                }
+                break;
+        }
+        return true;
+    }
+
+    int ponDentroRango(int val, int valMin, int valMax) {
+        if (val < valMin) {
+            return valMin;
+        } else if (val > valMax) {
+            return valMax;
+        } else {
+            return val;
+        }
     }
 
     @Override
@@ -129,5 +232,99 @@ public class ZoomSeekBar extends View {
             }
             v += escalaRaya;
         }
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int altoDeseado = altoNumeros + altoRegla + altoBar + getPaddingBottom() + getPaddingTop();
+        int alto = obtenDimension(heightMeasureSpec, altoDeseado);
+        int anchoDeseado = 2 * altoDeseado;
+        int ancho = obtenDimension(widthMeasureSpec, anchoDeseado);
+        setMeasuredDimension(ancho, alto);
+    }
+
+    private int obtenDimension(int measureSpec, int deseado) {
+        int dimension = MeasureSpec.getSize(measureSpec);
+        int modo = MeasureSpec.getMode(measureSpec);
+        if (modo == MeasureSpec.EXACTLY) {
+            return dimension;
+        } else if (modo == MeasureSpec.AT_MOST) {
+            return Math.min(dimension, deseado);
+        } else {
+            return deseado;
+        }
+    }
+
+    public int getValMin() {
+        return valMin;
+    }
+
+    public void setValMin(int valMin) {
+        this.valMin = valMin;
+    }
+
+    public int getValMax() {
+        return valMax;
+    }
+
+    public void setValMax(int valMax) {
+        this.valMax = valMax;
+    }
+
+    public int getEscalaMin() {
+        return escalaMin;
+    }
+
+    public void setEscalaMin(int escalaMin) {
+        this.escalaMin = escalaMin;
+    }
+
+    public int getEscalaMax() {
+        return escalaMax;
+    }
+
+    public void setEscalaMax(int escalaMax) {
+        this.escalaMax = escalaMax;
+    }
+
+    public int getEscalaIni() {
+        return escalaIni;
+    }
+
+    public void setEscalaIni(int escalaIni) {
+        this.escalaIni = escalaIni;
+    }
+
+    public int getEscalaRaya() {
+        return escalaRaya;
+    }
+
+    public void setEscalaRaya(int escalaRaya) {
+        this.escalaRaya = escalaRaya;
+    }
+
+    public int getEscalaRayaLarga() {
+        return escalaRayaLarga;
+    }
+
+    public void setEscalaRayaLarga(int escalaRayaLarga) {
+        this.escalaRayaLarga = escalaRayaLarga;
+    }
+
+    // Variables globales usadas en onTouchEvent()
+    enum Estado {
+        SIN_PULSACION, PALANCA_PULSADA, ESCALA_PULSADA, ESCALA_PULSADA_DOBLE
+    }
+
+    public ZoomSeekBarListener getListener() {
+        return listener;
+    }
+
+    public void setListener(ZoomSeekBarListener listener) {
+        this.listener = listener;
+    }
+
+    public interface ZoomSeekBarListener {
+        void onValChanged(int val);
     }
 }
