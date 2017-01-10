@@ -140,6 +140,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         adaptador = ((Aplicacion) getApplicationContext()).getAdaptador();
         appBarLayout = (AppBarLayout) findViewById(R.id.appBarLayout);
 
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            int id = extras.getInt("ID");
+            mostrarDetalle(id);
+        }
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
