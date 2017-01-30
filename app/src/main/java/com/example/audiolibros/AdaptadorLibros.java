@@ -27,6 +27,11 @@ public class AdaptadorLibros extends RecyclerView.Adapter<AdaptadorLibros.ViewHo
     private View.OnLongClickListener onLongClickListener;
     //Vector con libros a visualizar
     private Context contexto;
+    private ClickAction clickAction = new EmptyClickAction();
+
+    public void setClickAction(ClickAction clickAction) {
+        this.clickAction = clickAction;
+    }
 
     public AdaptadorLibros(Context contexto, Vector<Libro> vectorLibros) {
         inflador = (LayoutInflater) contexto.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -46,13 +51,13 @@ public class AdaptadorLibros extends RecyclerView.Adapter<AdaptadorLibros.ViewHo
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // Inflamos la vista desde el xml
         View v = inflador.inflate(R.layout.elemento_selector, null);
-        v.setOnClickListener(onClickListener);
+        //v.setOnClickListener(onClickListener);
         v.setOnLongClickListener(onLongClickListener);
         return new ViewHolder(v);
     } // Usando como base el ViewHolder y lo personalizamos
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int posicion) {
+    public void onBindViewHolder(final ViewHolder holder, final int posicion) {
         final Libro libro = vectorLibros.elementAt(posicion);
         //holder.portada.setImageResource(libro.recursoImagen);
         Aplicacion aplicacion = (Aplicacion) contexto.getApplicationContext();
@@ -69,7 +74,7 @@ public class AdaptadorLibros extends RecyclerView.Adapter<AdaptadorLibros.ViewHo
                     holder.titulo.setBackgroundColor(palette.getLightVibrantColor(0));
                     holder.portada.invalidate();*/
                     holder.portada.invalidate();
-                    if (libro.colorApagado==-1) {
+                    if (libro.colorApagado == -1) {
                         Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
                             public void onGenerated(Palette palette) {
                                 libro.colorApagado = palette.getLightMutedColor(0);
@@ -91,7 +96,12 @@ public class AdaptadorLibros extends RecyclerView.Adapter<AdaptadorLibros.ViewHo
                 holder.portada.setImageResource(R.drawable.books);
             }
         });
-
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickAction.execute(posicion);
+            }
+        });
         holder.titulo.setText(libro.titulo);
         holder.itemView.setScaleX(1);
         holder.itemView.setScaleY(1);
