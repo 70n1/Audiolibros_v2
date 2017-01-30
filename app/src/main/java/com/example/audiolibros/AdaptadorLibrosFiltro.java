@@ -2,13 +2,15 @@ package com.example.audiolibros;
 
 import android.content.Context;
 
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Vector;
 
 /**
  * Created by el70n on 25/12/2016.
  */
 
-public class AdaptadorLibrosFiltro extends AdaptadorLibros {
+public class AdaptadorLibrosFiltro extends AdaptadorLibros implements Observer {
     private Vector<Libro> vectorSinFiltro;// Vector con todos los libros
     private Vector<Integer> indiceFiltro; // Índice en vectorSinFiltro de
     // Cada elemento de vectorLibros
@@ -22,22 +24,27 @@ public class AdaptadorLibrosFiltro extends AdaptadorLibros {
         vectorSinFiltro = vectorLibros;
         recalculaFiltro();
     }
+
     public void setBusqueda(String busqueda) {
         this.busqueda = busqueda.toLowerCase();
         recalculaFiltro();
     }
+
     public void setGenero(String genero) {
         this.genero = genero;
         recalculaFiltro();
     }
+
     public void setNovedad(boolean novedad) {
         this.novedad = novedad;
         recalculaFiltro();
     }
+
     public void setLeido(boolean leido) {
         this.leido = leido;
         recalculaFiltro();
     }
+
     public void recalculaFiltro() {
         vectorLibros = new Vector<Libro>();
         indiceFiltro = new Vector<Integer>();
@@ -52,6 +59,7 @@ public class AdaptadorLibrosFiltro extends AdaptadorLibros {
             }
         }
     }
+
     public Libro getItem(int posicion) {
         return vectorSinFiltro.elementAt(indiceFiltro.elementAt(posicion));
     }
@@ -64,8 +72,15 @@ public class AdaptadorLibrosFiltro extends AdaptadorLibros {
         vectorSinFiltro.remove((int) getItemId(posicion));
         recalculaFiltro();
     }
-    public void insertar(Libro libro){
-        vectorSinFiltro.add(0,libro);
+
+    public void insertar(Libro libro) {
+        vectorSinFiltro.add(0, libro);
         recalculaFiltro();
+    }
+
+    @Override
+    public void update(Observable observable, Object data) {
+        setBusqueda((String) data);
+        notifyDataSetChanged();
     }
 }

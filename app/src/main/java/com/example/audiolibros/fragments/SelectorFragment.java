@@ -14,7 +14,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
+
+import android.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,6 +32,7 @@ import com.example.audiolibros.Aplicacion;
 import com.example.audiolibros.Libro;
 import com.example.audiolibros.MainActivity;
 import com.example.audiolibros.R;
+import com.example.audiolibros.SearchObservable;
 
 import java.util.Vector;
 
@@ -141,7 +143,7 @@ public class SelectorFragment extends Fragment implements Animator.AnimatorListe
         inflater.inflate(R.menu.menu_selector, menu);
         MenuItem searchItem = menu.findItem(R.id.menu_buscar);
         SearchView searchView = (SearchView) searchItem.getActionView();
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        /*searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextChange(String query) {
                 adaptador.setBusqueda(query);
@@ -153,7 +155,12 @@ public class SelectorFragment extends Fragment implements Animator.AnimatorListe
             public boolean onQueryTextSubmit(String query) {
                 return false;
             }
-        });
+        });*/
+
+        SearchObservable searchObservable = new SearchObservable();
+        searchObservable.addObserver(adaptador);
+        searchView.setOnQueryTextListener(searchObservable);
+
         MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
