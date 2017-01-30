@@ -1,9 +1,6 @@
 package com.example.audiolibros;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -17,7 +14,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -141,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         adaptador = ((Aplicacion) getApplicationContext()).getAdaptador();
         appBarLayout = (AppBarLayout) findViewById(R.id.appBarLayout);
 
-        libroStorage = new LibroStorage(this);
+        libroStorage = new LibroSharedPreferenceStorage(this);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             int id = extras.getInt("ID");
