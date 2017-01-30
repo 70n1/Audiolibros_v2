@@ -23,6 +23,8 @@ public class Libro {
             G_S_XIX, G_SUSPENSE };
     public int colorVibrante = -1, colorApagado = -1;
 
+    public final static Libro LIBRO_EMPTY = new Libro("", "anónimo", "http://www.dcomg.upv.es/~jtomas/android/audiolibros/sin_portada.jpg", "", G_TODOS, true, false);
+
     public Libro(String titulo, String autor, String urlImagen, String urlAudio, String genero, Boolean novedad, Boolean leido) {
         this.urlImagen = urlImagen;
         this.titulo = titulo;
