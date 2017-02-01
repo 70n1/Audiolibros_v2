@@ -33,7 +33,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private TabLayout tabs;
     private DrawerLayout drawer;
     private ActionBarDrawerToggle toggle;
-    private LibroStorage libroStorage;
+    //private LibroStorage libroStorage;
+    private MainController controller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,8 +139,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         adaptador = librosSingleton.getAdaptador();
         appBarLayout = (AppBarLayout) findViewById(R.id.appBarLayout);
 
+        controller = new MainController( LibroSharedPreferenceStorage.getInstance(this));
         //libroStorage = new LibroSharedPreferenceStorage(this);
-        libroStorage = LibroSharedPreferenceStorage.getInstance(this);
+        //libroStorage = LibroSharedPreferenceStorage.getInstance(this);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             int id = extras.getInt("ID");
@@ -212,14 +214,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void irUltimoVisitado() {
-        if (libroStorage.hasLastBook()) {
-            mostrarDetalle(libroStorage.getLastBook());
+        if (LibroSharedPreferenceStorage.getInstance(this).hasLastBook()) {
+            mostrarDetalle(LibroSharedPreferenceStorage.getInstance(this).getLastBook());
         } else {
             Toast.makeText(this, "Sin última vista", Toast.LENGTH_LONG).show();
         }
     }
 
     public void mostrarDetalle(int id) {
+        mostrarFragmentDetalle(id);
+        controller.saveLastBook(id);
+    }
+
+    private void mostrarFragmentDetalle(int id) {
         DetalleFragment detalleFragment = (DetalleFragment) getFragmentManager().findFragmentById(R.id.detalle_fragment);
         if (detalleFragment != null) {  //estamos en una tableta
             detalleFragment.ponInfoLibro(id);
@@ -234,12 +241,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             transaccion.addToBackStack(null);
             transaccion.commit();
         }
-        SharedPreferences pref = getSharedPreferences(
-                "com.example.audiolibros_internal", MODE_PRIVATE);
-        SharedPreferences.Editor editor = pref.edit();
-        editor.putInt("ultimo", id);
-        editor.commit();
     }
+
 
     public void mostrarElementos(boolean mostrar) {
         appBarLayout.setExpanded(mostrar);
