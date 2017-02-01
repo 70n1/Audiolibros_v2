@@ -12,7 +12,16 @@ public class LibroSharedPreferenceStorage implements LibroStorage {
     public static final String KEY_ULTIMO_LIBRO = "ultimo";
     private final Context context;
 
-    public LibroSharedPreferenceStorage(Context context) {
+    private static LibroSharedPreferenceStorage instance;
+
+    public static LibroStorage getInstance(Context context) {
+        if (instance == null) {
+            instance = new LibroSharedPreferenceStorage(context);
+        }
+        return instance;
+    }
+
+    private LibroSharedPreferenceStorage(Context context) {
         this.context = context;
     }
 

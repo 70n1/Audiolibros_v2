@@ -137,7 +137,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         adaptador = ((Aplicacion) getApplicationContext()).getAdaptador();
         appBarLayout = (AppBarLayout) findViewById(R.id.appBarLayout);
 
-        libroStorage = new LibroSharedPreferenceStorage(this);
+        //libroStorage = new LibroSharedPreferenceStorage(this);
+        libroStorage = LibroSharedPreferenceStorage.getInstance(this);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             int id = extras.getInt("ID");
