@@ -134,7 +134,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        adaptador = ((Aplicacion) getApplicationContext()).getAdaptador();
+        LibrosSingleton  librosSingleton = LibrosSingleton.getInstance(this);
+        adaptador = librosSingleton.getAdaptador();
         appBarLayout = (AppBarLayout) findViewById(R.id.appBarLayout);
 
         //libroStorage = new LibroSharedPreferenceStorage(this);

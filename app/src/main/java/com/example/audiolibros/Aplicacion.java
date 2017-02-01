@@ -16,10 +16,8 @@ import java.util.Vector;
 
 public class Aplicacion extends Application {
 
-    private Vector<Libro> vectorLibros;
     private static RequestQueue colaPeticiones;
     private static ImageLoader lectorImagenes;
-    private AdaptadorLibrosFiltro adaptador;
 
     public static RequestQueue getColaPeticiones() {
         return colaPeticiones;
@@ -39,8 +37,6 @@ public class Aplicacion extends Application {
 
     @Override
     public void onCreate() {
-        vectorLibros = Libro.ejemploLibros();
-        adaptador = new AdaptadorLibrosFiltro (this, vectorLibros);
 
         colaPeticiones = Volley.newRequestQueue(this);
         lectorImagenes = new ImageLoader(colaPeticiones, new ImageLoader.ImageCache() {
@@ -54,11 +50,5 @@ public class Aplicacion extends Application {
                 return cache.get(url);
             }
         });
-    }
-    public AdaptadorLibrosFiltro getAdaptador() {
-        return adaptador;
-    }
-    public Vector<Libro> getVectorLibros() {
-        return vectorLibros;
     }
 }

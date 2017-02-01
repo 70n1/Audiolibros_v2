@@ -30,6 +30,7 @@ import com.example.audiolibros.AdaptadorLibros;
 import com.example.audiolibros.AdaptadorLibrosFiltro;
 import com.example.audiolibros.Aplicacion;
 import com.example.audiolibros.Libro;
+import com.example.audiolibros.LibrosSingleton;
 import com.example.audiolibros.MainActivity;
 import com.example.audiolibros.OpenDetailClickAction;
 import com.example.audiolibros.R;
@@ -54,8 +55,9 @@ public class SelectorFragment extends Fragment implements Animator.AnimatorListe
         if (contexto instanceof Activity) {
             this.actividad = (Activity) contexto;
             Aplicacion app = (Aplicacion) actividad.getApplication();
-            adaptador = app.getAdaptador();
-            vectorLibros = app.getVectorLibros();
+            LibrosSingleton  librosSingleton = LibrosSingleton.getInstance(contexto);
+            adaptador = librosSingleton.getAdaptador();
+            vectorLibros = librosSingleton.getVectorLibros();
         }
     }
 
