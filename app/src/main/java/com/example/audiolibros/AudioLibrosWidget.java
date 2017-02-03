@@ -27,20 +27,26 @@ public class AudioLibrosWidget extends AppWidgetProvider {
         SharedPreferences pref = context.getSharedPreferences(
                 "com.example.audiolibros_internal", Context.MODE_PRIVATE);
         int id = pref.getInt("ultimo", -1);
-        if ((id==-1) && ((Aplicacion) context.getApplicationContext())
+        /*if ((id==-1) && ((Aplicacion) context.getApplicationContext())
+                .getVectorLibros().size()>0) {*/
+        if ((id==-1) && LibrosSingleton.getInstance(context)
                 .getVectorLibros().size()>0) {
             id=0;
         }
+
         if (id >= 0) {
-            Libro libro = ((Aplicacion) context.getApplicationContext())
+            /*Libro libro = ((Aplicacion) context.getApplicationContext())
+                    .getVectorLibros().elementAt(id);*/
+            Libro libro = LibrosSingleton.getInstance(context)
                     .getVectorLibros().elementAt(id);
             remoteViews = new RemoteViews(context.getPackageName(),
                     R.layout.widget);
             remoteViews.setTextViewText(R.id.textView1, libro.titulo);
             remoteViews.setTextViewText(R.id.textView2, libro.autor);
 
-            Aplicacion aplicacion = (Aplicacion) context.getApplicationContext();
-            aplicacion.getLectorImagenes().get(libro.urlImagen, new ImageLoader.ImageListener() {
+            /*Aplicacion aplicacion = (Aplicacion) context.getApplicationContext();
+            aplicacion.getLectorImagenes().get(libro.urlImagen, new ImageLoader.ImageListener() {*/
+            VolleySingleton.getInstance(context).getLectorImagenes().get(libro.urlImagen, new ImageLoader.ImageListener() {
                 @Override
                 public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
                     //Bitmap bitmap = response.getBitmap();

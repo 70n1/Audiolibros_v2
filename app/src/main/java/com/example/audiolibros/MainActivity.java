@@ -25,7 +25,7 @@ import com.example.audiolibros.fragments.DetalleFragment;
 import com.example.audiolibros.fragments.PreferenciasFragment;
 import com.example.audiolibros.fragments.SelectorFragment;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, MainPresenter.View {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private AdaptadorLibrosFiltro adaptador;
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawer;
     private ActionBarDrawerToggle toggle;
     //private LibroStorage libroStorage;
-    private MainController controller;
+    private MainPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,18 +75,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "¿Deseas ir al último visitado?", Snackbar.LENGTH_LONG).setAction("SI", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        irUltimoVisitado();
-                    }
-                }).show();
-            }
-        });
 
         /*Aplicacion app = (Aplicacion) getApplication();
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
@@ -135,13 +123,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        LibrosSingleton  librosSingleton = LibrosSingleton.getInstance(this);
+        LibrosSingleton librosSingleton = LibrosSingleton.getInstance(this);
         adaptador = librosSingleton.getAdaptador();
         appBarLayout = (AppBarLayout) findViewById(R.id.appBarLayout);
 
-        controller = new MainController( LibroSharedPreferenceStorage.getInstance(this));
+        //controller = new MainController( LibroSharedPreferenceStorage.getInstance(this));
+        presenter = new MainPresenter(LibroSharedPreferenceStorage.getInstance(this), this);
+
         //libroStorage = new LibroSharedPreferenceStorage(this);
         //libroStorage = LibroSharedPreferenceStorage.getInstance(this);
+
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                presenter.clickFavoriteButton();
+                /*Snackbar.make(view, "¿Deseas ir al último visitado?", Snackbar.LENGTH_LONG).setAction("SI", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        irUltimoVisitado();
+                    }
+                }).show();*/
+            }
+        });
+
+
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             int id = extras.getInt("ID");
@@ -214,16 +221,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void irUltimoVisitado() {
-        if (LibroSharedPreferenceStorage.getInstance(this).hasLastBook()) {
+        /*if (LibroSharedPreferenceStorage.getInstance(this).hasLastBook()) {
             mostrarDetalle(LibroSharedPreferenceStorage.getInstance(this).getLastBook());
         } else {
             Toast.makeText(this, "Sin última vista", Toast.LENGTH_LONG).show();
-        }
+        }*/
+        presenter.clickFavoriteButton();
     }
 
+    @Override
     public void mostrarDetalle(int id) {
-        mostrarFragmentDetalle(id);
-        controller.saveLastBook(id);
+        /*mostrarFragmentDetalle(id);
+        presenter.saveLastBook(id);*/
+        presenter.openDetalle(id);
+    }
+
+    @Override
+    public void mostrarNoUltimaVisita() {
+        Toast.makeText(this, "Sin última vista", Toast.LENGTH_LONG).show();
     }
 
     private void mostrarFragmentDetalle(int id) {
