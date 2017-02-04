@@ -15,7 +15,7 @@ public class MainPresenter {
 
     public void clickFavoriteButton() {
         if (libroStorage.hasLastBook()) {
-            view.mostrarDetalle(libroStorage.getLastBook());
+            view.mostrarFragmentDetalle(libroStorage.getLastBook());
         } else {
             view.mostrarNoUltimaVisita();
         }
@@ -23,11 +23,12 @@ public class MainPresenter {
 
     public void openDetalle(int id) {
         libroStorage.saveLastBook(id);
-        view.mostrarDetalle(id);
+        //view.mostrarDetalle(id);
+        view.mostrarFragmentDetalle(id);
     }
 
     public interface View {
-        void mostrarDetalle(int lastBook);
+        void mostrarFragmentDetalle(int lastBook);
 
         void mostrarNoUltimaVisita();
     }

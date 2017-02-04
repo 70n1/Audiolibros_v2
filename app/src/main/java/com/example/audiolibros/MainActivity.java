@@ -229,7 +229,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         presenter.clickFavoriteButton();
     }
 
-    @Override
     public void mostrarDetalle(int id) {
         /*mostrarFragmentDetalle(id);
         presenter.saveLastBook(id);*/
@@ -241,7 +240,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toast.makeText(this, "Sin última vista", Toast.LENGTH_LONG).show();
     }
 
-    private void mostrarFragmentDetalle(int id) {
+    @Override
+    public void mostrarFragmentDetalle(int id) {
         DetalleFragment detalleFragment = (DetalleFragment) getFragmentManager().findFragmentById(R.id.detalle_fragment);
         if (detalleFragment != null) {  //estamos en una tableta
             detalleFragment.ponInfoLibro(id);
