@@ -19,6 +19,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.audiolibros.fragments.DetalleFragment;
@@ -129,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //controller = new MainController( LibroSharedPreferenceStorage.getInstance(this));
         LibroStorage libroStorage = LibroSharedPreferenceStorage.getInstance(this);
-        presenter = new MainPresenter( new SaveLastBook(libroStorage), libroStorage, this);
+        presenter = new MainPresenter(new SaveLastBook(libroStorage), libroStorage, this);
 
         //libroStorage = new LibroSharedPreferenceStorage(this);
         //libroStorage = LibroSharedPreferenceStorage.getInstance(this);
@@ -155,6 +156,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             int id = extras.getInt("ID");
             mostrarDetalle(id);
         }
+        SharedPreferences pref = getSharedPreferences("com.example.audiolibros_internal", MODE_PRIVATE);
+        //String name = pref.getString("name", null);
+        String name = pref.getString("email", null);
+        View headerLayout = navigationView.getHeaderView(0);
+        TextView txtName = (TextView) headerLayout.findViewById(R.id.txtName);
+        txtName.setText(String.format(getString(R.string.welcome_message), name));
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
