@@ -128,7 +128,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         appBarLayout = (AppBarLayout) findViewById(R.id.appBarLayout);
 
         //controller = new MainController( LibroSharedPreferenceStorage.getInstance(this));
-        presenter = new MainPresenter(LibroSharedPreferenceStorage.getInstance(this), this);
+        LibroStorage libroStorage = LibroSharedPreferenceStorage.getInstance(this);
+        presenter = new MainPresenter( new SaveLastBook(libroStorage), libroStorage, this);
 
         //libroStorage = new LibroSharedPreferenceStorage(this);
         //libroStorage = LibroSharedPreferenceStorage.getInstance(this);
