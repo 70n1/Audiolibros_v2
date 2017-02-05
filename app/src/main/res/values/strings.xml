@@ -5,4 +5,5 @@
     <string name="drawer_open">navigation drawer abierto</string>
     <string name="drawer_close">navigation drawer cerrado</string>
     <string name="welcome_message">Bienvenido, %s</string>
+    <string name="sign_out">Cerrar sesión</string>
 </resources>
