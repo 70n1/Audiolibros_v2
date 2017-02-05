@@ -6,4 +6,6 @@
     <string name="drawer_close">navigation drawer cerrado</string>
     <string name="welcome_message">Bienvenido, %s</string>
     <string name="sign_out">Cerrar sesión</string>
+    <string name="facebook_application_id" translatable="false">1830772843877315</string>
+    <string name="facebook_login_protocol_scheme" translatable="false">fb1830772843877315</string>
 </resources>
