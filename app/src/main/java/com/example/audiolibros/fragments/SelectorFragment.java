@@ -33,6 +33,7 @@ import com.example.audiolibros.Libro;
 import com.example.audiolibros.LibrosSingleton;
 import com.example.audiolibros.MainActivity;
 import com.example.audiolibros.OpenDetailClickAction;
+import com.example.audiolibros.OpenLongClickAction;
 import com.example.audiolibros.R;
 import com.example.audiolibros.SearchObservable;
 
@@ -81,6 +82,7 @@ public class SelectorFragment extends Fragment implements Animator.AnimatorListe
             }
         });*/
         adaptador.setClickAction(new OpenDetailClickAction((MainActivity) getActivity()));
+        //adaptador.setOnItemLongClickListener(new OpenLongClickAction(this, adaptador, vectorLibros));
         adaptador.setOnItemLongClickListener(new View.OnLongClickListener() {
             public boolean onLongClick(final View v) {
                 final int id = recyclerView.getChildAdapterPosition(v);
