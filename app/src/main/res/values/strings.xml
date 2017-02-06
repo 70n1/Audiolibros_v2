@@ -8,4 +8,6 @@
     <string name="sign_out">Cerrar sesión</string>
     <string name="facebook_application_id" translatable="false">1830772843877315</string>
     <string name="facebook_login_protocol_scheme" translatable="false">fb1830772843877315</string>
+    <string name="twitter_consumer_key" translatable="false">zSksAaUElhhGXfshqOMtS6ePz</string>
+    <string name="twitter_consumer_secret" translatable="false">m9kWQop48rzyzp1ligLGoTGyhtp0lQN72FMIVyBPmxdnqrwBij</string>
 </resources>

@@ -162,8 +162,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             mostrarDetalle(id);
         }
         SharedPreferences pref = getSharedPreferences("com.example.audiolibros_internal", MODE_PRIVATE);
-        //String name = pref.getString("name", null);
-        String name = pref.getString("email", null);
+        String name = pref.getString("name", null);
+        //String name = pref.getString("email", null);
         View headerLayout = navigationView.getHeaderView(0);
         TextView txtName = (TextView) headerLayout.findViewById(R.id.txtName);
         txtName.setText(String.format(getString(R.string.welcome_message), name));
