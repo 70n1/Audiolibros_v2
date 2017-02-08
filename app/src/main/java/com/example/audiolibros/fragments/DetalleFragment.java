@@ -48,7 +48,8 @@ public class DetalleFragment extends Fragment implements View.OnTouchListener, M
     }
 
     private void ponInfoLibro(int id, View vista) {
-        Libro libro = LibrosSingleton.getInstance((MainActivity) getActivity()).getVectorLibros().elementAt(id);
+        //Libro libro = LibrosSingleton.getInstance((MainActivity) getActivity()).getVectorLibros().elementAt(id);
+        Libro libro = LibrosSingleton.getInstance((MainActivity) getActivity()).getAdaptador().getItemById(id);
         //Libro libro = ((Aplicacion) getActivity().getApplication()).getVectorLibros().elementAt(id);
         ((TextView) vista.findViewById(R.id.titulo)).setText(libro.getTitulo());
         ((TextView) vista.findViewById(R.id.autor)).setText(libro.getAutor());

@@ -24,13 +24,14 @@ public class Aplicacion extends Application {
     private final static String BOOKS_CHILD = "libros";
     private final static String USERS_CHILD = "usuarios";
     private DatabaseReference usersReference;
+    static public DatabaseReference booksReference;
 
     @Override
     public void onCreate() {
         auth = FirebaseAuth.getInstance();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         database.setPersistenceEnabled(true);
-        DatabaseReference booksReference = database.getReference().child(BOOKS_CHILD);
+        booksReference = database.getReference().child(BOOKS_CHILD);
         usersReference = database.getReference().child(USERS_CHILD);
     }
 
