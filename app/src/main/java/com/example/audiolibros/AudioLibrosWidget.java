@@ -41,12 +41,12 @@ public class AudioLibrosWidget extends AppWidgetProvider {
                     .getVectorLibros().elementAt(id);
             remoteViews = new RemoteViews(context.getPackageName(),
                     R.layout.widget);
-            remoteViews.setTextViewText(R.id.textView1, libro.titulo);
-            remoteViews.setTextViewText(R.id.textView2, libro.autor);
+            remoteViews.setTextViewText(R.id.textView1, libro.getTitulo());
+            remoteViews.setTextViewText(R.id.textView2, libro.getAutor());
 
             /*Aplicacion aplicacion = (Aplicacion) context.getApplicationContext();
             aplicacion.getLectorImagenes().get(libro.urlImagen, new ImageLoader.ImageListener() {*/
-            VolleySingleton.getInstance(context).getLectorImagenes().get(libro.urlImagen, new ImageLoader.ImageListener() {
+            VolleySingleton.getInstance(context).getLectorImagenes().get(libro.getUrlImagen(), new ImageLoader.ImageListener() {
                 @Override
                 public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
                     //Bitmap bitmap = response.getBitmap();

@@ -48,13 +48,14 @@ public class DetalleFragment extends Fragment implements View.OnTouchListener, M
     }
 
     private void ponInfoLibro(int id, View vista) {
-        Libro libro = LibrosSingleton.getInstance((MainActivity) getActivity()).getVectorLibros().elementAt(id);
+        //Libro libro = LibrosSingleton.getInstance((MainActivity) getActivity()).getVectorLibros().elementAt(id);
+        Libro libro = LibrosSingleton.getInstance((MainActivity) getActivity()).getAdaptador().getItemById(id);
         //Libro libro = ((Aplicacion) getActivity().getApplication()).getVectorLibros().elementAt(id);
-        ((TextView) vista.findViewById(R.id.titulo)).setText(libro.titulo);
-        ((TextView) vista.findViewById(R.id.autor)).setText(libro.autor);
+        ((TextView) vista.findViewById(R.id.titulo)).setText(libro.getTitulo());
+        ((TextView) vista.findViewById(R.id.autor)).setText(libro.getAutor());
         //((ImageView) vista.findViewById(R.id.portada)).setImageResource(libro.recursoImagen);
         Aplicacion aplicacion = (Aplicacion) getActivity().getApplication();
-        ((NetworkImageView) vista.findViewById(R.id.portada)).setImageUrl(libro.urlImagen, VolleySingleton.getInstance((MainActivity) getActivity()).getLectorImagenes());
+        ((NetworkImageView) vista.findViewById(R.id.portada)).setImageUrl(libro.getUrlImagen(), VolleySingleton.getInstance((MainActivity) getActivity()).getLectorImagenes());
 
         vista.setOnTouchListener(this);
         if (mediaPlayer != null) {
@@ -63,7 +64,7 @@ public class DetalleFragment extends Fragment implements View.OnTouchListener, M
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setOnPreparedListener(this);
         mediaController = new MediaController(getActivity());
-        Uri audio = Uri.parse(libro.urlAudio);
+        Uri audio = Uri.parse(libro.getUrlAudio());
         try {
             mediaPlayer.setDataSource(getActivity(), audio);
             mediaPlayer.prepareAsync();

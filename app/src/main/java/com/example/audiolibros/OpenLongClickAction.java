@@ -49,8 +49,8 @@ public class OpenLongClickAction implements ClickAction {
                         Libro libro = vectorLibros.elementAt(id);
                         Intent i = new Intent(Intent.ACTION_SEND);
                         i.setType("text/plain");
-                        i.putExtra(Intent.EXTRA_SUBJECT, libro.titulo);
-                        i.putExtra(Intent.EXTRA_TEXT, libro.urlAudio);
+                        i.putExtra(Intent.EXTRA_SUBJECT, libro.getTitulo());
+                        i.putExtra(Intent.EXTRA_TEXT, libro.getUrlAudio());
                         selectorFragment.getActivity().startActivity(Intent.createChooser(i, "Compartir"));
                         break;
                     case 1: //Borrar

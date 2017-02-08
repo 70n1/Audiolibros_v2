@@ -10,7 +10,7 @@ import java.util.Vector;
 public class LibrosSingleton {
 
     private static AdaptadorLibrosFiltro adaptador;
-    private static Vector<Libro> vectorLibros;
+    //private static Vector<Libro> vectorLibros;
     private final Context context;
 
     private static LibrosSingleton ourInstance;
@@ -25,15 +25,16 @@ public class LibrosSingleton {
 
     private LibrosSingleton(Context context) {
         this.context = context;
-        vectorLibros = Libro.ejemploLibros();
-        adaptador = new AdaptadorLibrosFiltro(context, vectorLibros);
+        //vectorLibros = Libro.ejemploLibros();
+        adaptador = new AdaptadorLibrosFiltro(context, Aplicacion.booksReference);
     }
 
 
     public AdaptadorLibrosFiltro getAdaptador() {
         return adaptador;
     }
-    public Vector<Libro> getVectorLibros() {
+
+    /*public Vector<Libro> getVectorLibros() {
         return vectorLibros;
-    }
+    }*/
 }

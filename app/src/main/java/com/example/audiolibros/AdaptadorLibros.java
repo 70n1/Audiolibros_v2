@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.database.DatabaseReference;
 
 import java.util.Vector;
 
@@ -19,9 +21,10 @@ import java.util.Vector;
  * Created by AMARTIN on 20/12/2016.
  */
 
-public class AdaptadorLibros extends RecyclerView.Adapter<AdaptadorLibros.ViewHolder> {
+public class AdaptadorLibros extends FirebaseRecyclerAdapter<Libro,AdaptadorLibros.ViewHolder> {
     //Crea Layouts a partir del XML
-    protected Vector<Libro> vectorLibros;
+    //protected Vector<Libro> vectorLibros;
+    protected DatabaseReference booksReference;
     private LayoutInflater inflador;
     private View.OnClickListener onClickListener;
     private View.OnLongClickListener onLongClickListener;
@@ -33,9 +36,11 @@ public class AdaptadorLibros extends RecyclerView.Adapter<AdaptadorLibros.ViewHo
         this.clickAction = clickAction;
     }
 
-    public AdaptadorLibros(Context contexto, Vector<Libro> vectorLibros) {
+    public AdaptadorLibros(Context contexto, DatabaseReference reference) {
+        super(Libro.class, R.layout.elemento_selector, AdaptadorLibros.ViewHolder.class, reference);
         inflador = (LayoutInflater) contexto.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.vectorLibros = vectorLibros;
+        //this.vectorLibros = vectorLibros;
+        this.booksReference = reference;
         this.contexto = contexto;
     }
 
@@ -57,12 +62,12 @@ public class AdaptadorLibros extends RecyclerView.Adapter<AdaptadorLibros.ViewHo
     } // Usando como base el ViewHolder y lo personalizamos
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, final int posicion) {
-        final Libro libro = vectorLibros.elementAt(posicion);
+    public void populateViewHolder(final ViewHolder holder, final Libro libro,  final int posicion) {
+        //final Libro libro = vectorLibros.elementAt(posicion);
         //holder.portada.setImageResource(libro.recursoImagen);
         /*Aplicacion aplicacion = (Aplicacion) contexto.getApplicationContext();
         aplicacion.getLectorImagenes().get(libro.urlImagen, new ImageLoader.ImageListener() {*/
-        VolleySingleton.getInstance(contexto).getLectorImagenes().get(libro.urlImagen, new ImageLoader.ImageListener() {
+        VolleySingleton.getInstance(contexto).getLectorImagenes().get(libro.getUrlImagen(), new ImageLoader.ImageListener() {
             @Override
             public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
                 //Bitmap bitmap = response.getBitmap();
@@ -103,15 +108,15 @@ public class AdaptadorLibros extends RecyclerView.Adapter<AdaptadorLibros.ViewHo
                 clickAction.execute(posicion);
             }
         });
-        holder.titulo.setText(libro.titulo);
+        holder.titulo.setText(libro.getTitulo());
         holder.itemView.setScaleX(1);
         holder.itemView.setScaleY(1);
     }
 
-    @Override
+    /*@Override
     public int getItemCount() {
         return vectorLibros.size();
-    }
+    }*/
 // Indicamos el número de elementos de la lista
 
     //Creamos nuestro ViewHolder, con los tipos de elementos a modificar
