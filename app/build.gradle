@@ -35,5 +35,6 @@ dependencies {
     compile 'com.android.support:animated-vector-drawable:25.0.0'
     compile 'com.firebaseui:firebase-ui-auth:1.1.1'
     testCompile 'junit:junit:4.12'
+    compile 'com.firebaseui:firebase-ui-database:1.1.1'
 }
 apply plugin: 'com.google.gms.google-services'
