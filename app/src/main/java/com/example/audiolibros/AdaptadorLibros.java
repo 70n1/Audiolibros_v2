@@ -62,7 +62,7 @@ public class AdaptadorLibros extends RecyclerView.Adapter<AdaptadorLibros.ViewHo
         //holder.portada.setImageResource(libro.recursoImagen);
         /*Aplicacion aplicacion = (Aplicacion) contexto.getApplicationContext();
         aplicacion.getLectorImagenes().get(libro.urlImagen, new ImageLoader.ImageListener() {*/
-        VolleySingleton.getInstance(contexto).getLectorImagenes().get(libro.urlImagen, new ImageLoader.ImageListener() {
+        VolleySingleton.getInstance(contexto).getLectorImagenes().get(libro.getUrlImagen(), new ImageLoader.ImageListener() {
             @Override
             public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
                 //Bitmap bitmap = response.getBitmap();
@@ -103,7 +103,7 @@ public class AdaptadorLibros extends RecyclerView.Adapter<AdaptadorLibros.ViewHo
                 clickAction.execute(posicion);
             }
         });
-        holder.titulo.setText(libro.titulo);
+        holder.titulo.setText(libro.getTitulo());
         holder.itemView.setScaleX(1);
         holder.itemView.setScaleY(1);
     }
