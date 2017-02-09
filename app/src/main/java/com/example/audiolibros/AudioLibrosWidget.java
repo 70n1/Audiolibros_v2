@@ -30,7 +30,7 @@ public class AudioLibrosWidget extends AppWidgetProvider {
         /*if ((id==-1) && ((Aplicacion) context.getApplicationContext())
                 .getVectorLibros().size()>0) {*/
         if ((id==-1) && LibrosSingleton.getInstance(context)
-                .getVectorLibros().size()>0) {
+                .getAdaptador().getItemCount()>0) {
             id=0;
         }
 
@@ -38,7 +38,7 @@ public class AudioLibrosWidget extends AppWidgetProvider {
             /*Libro libro = ((Aplicacion) context.getApplicationContext())
                     .getVectorLibros().elementAt(id);*/
             Libro libro = LibrosSingleton.getInstance(context)
-                    .getVectorLibros().elementAt(id);
+                    .getAdaptador().getItemById(id);
             remoteViews = new RemoteViews(context.getPackageName(),
                     R.layout.widget);
             remoteViews.setTextViewText(R.id.textView1, libro.getTitulo());
