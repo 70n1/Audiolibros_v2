@@ -112,6 +112,7 @@ public class AdaptadorLibros extends RecyclerView.Adapter<AdaptadorLibros.ViewHo
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int posicion) {
         final Libro libro = getItem(posicion);
+        final String key = getItemKey(posicion);
         //final Libro libro = vectorLibros.elementAt(posicion);
         //holder.portada.setImageResource(libro.recursoImagen);
         /*Aplicacion aplicacion = (Aplicacion) contexto.getApplicationContext();
@@ -154,7 +155,7 @@ public class AdaptadorLibros extends RecyclerView.Adapter<AdaptadorLibros.ViewHo
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clickAction.execute(posicion);
+                clickAction.execute(key);
             }
         });
         holder.titulo.setText(libro.getTitulo());
@@ -204,5 +205,18 @@ public class AdaptadorLibros extends RecyclerView.Adapter<AdaptadorLibros.ViewHo
     public void desactivaEscuchadorLibros() {
         //booksReference.removeEventListener(this);
         FirebaseDatabase.getInstance().goOffline();
+    }
+
+    public String getItemKey(int pos) {
+        return keys.get(pos);
+    }
+
+    public Libro getItemByKey(String key) {
+        int index = keys.indexOf(key);
+        if (index != -1) {
+            return items.get(index).getValue(Libro.class);
+        } else {
+            return null;
+        }
     }
 }
