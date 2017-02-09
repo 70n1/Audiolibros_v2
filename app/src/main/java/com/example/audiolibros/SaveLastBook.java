@@ -11,7 +11,7 @@ public class SaveLastBook {
         this.librosStorage = librosStorage;
     }
 
-    public void execute(int id) {
-        librosStorage.saveLastBook(id);
+    public void execute(String key) {
+        librosStorage.saveLastBook(key);
     }
 }

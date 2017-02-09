@@ -6,7 +6,7 @@ package com.example.audiolibros;
 
 public interface LibroStorage {
     boolean hasLastBook();
-    int getLastBook();
+    String getLastBook();
 
-    void saveLastBook(int id);
+    void saveLastBook(String key);
 }

@@ -39,17 +39,17 @@ public class DetalleFragment extends Fragment implements View.OnTouchListener, M
         View vista = inflador.inflate(R.layout.fragment_detalle, contenedor, false);
         Bundle args = getArguments();
         if (args != null) {
-            int position = args.getInt(ARG_ID_LIBRO);
-            ponInfoLibro(position, vista);
+            String key = args.getString(ARG_ID_LIBRO);
+            ponInfoLibro(key, vista);
         } else {
-            ponInfoLibro(0, vista);
+            ponInfoLibro("", vista);
         }
         return vista;
     }
 
-    private void ponInfoLibro(int id, View vista) {
+    private void ponInfoLibro(String key, View vista) {
         //Libro libro = LibrosSingleton.getInstance((MainActivity) getActivity()).getVectorLibros().elementAt(id);
-        Libro libro = LibrosSingleton.getInstance((MainActivity) getActivity()).getAdaptador().getItemById(id);
+        Libro libro = LibrosSingleton.getInstance((MainActivity) getActivity()).getAdaptador().getItemByKey(key);
         //Libro libro = ((Aplicacion) getActivity().getApplication()).getVectorLibros().elementAt(id);
         ((TextView) vista.findViewById(R.id.titulo)).setText(libro.getTitulo());
         ((TextView) vista.findViewById(R.id.autor)).setText(libro.getAutor());
@@ -73,8 +73,8 @@ public class DetalleFragment extends Fragment implements View.OnTouchListener, M
         }
     }
 
-    public void ponInfoLibro(int id) {
-        ponInfoLibro(id, getView());
+    public void ponInfoLibro(String key) {
+        ponInfoLibro(key, getView());
     }
 
     @Override

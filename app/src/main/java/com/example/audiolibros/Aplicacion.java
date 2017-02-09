@@ -26,6 +26,13 @@ public class Aplicacion extends Application {
     private DatabaseReference usersReference;
     static public DatabaseReference booksReference;
 
+    private static Lecturas lecturas;
+
+    public static Lecturas getLecturas() {
+        return lecturas;
+    }
+
+
     @Override
     public void onCreate() {
         auth = FirebaseAuth.getInstance();

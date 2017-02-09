@@ -162,8 +162,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            int id = extras.getInt("ID");
-            mostrarDetalle(id);
+            String key = extras.getString("ID");
+            mostrarDetalle(key);
         }
         SharedPreferences pref = getSharedPreferences("com.example.audiolibros_internal", MODE_PRIVATE);
         String name = pref.getString("name", null);
@@ -269,10 +269,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         presenter.clickFavoriteButton();
     }
 
-    public void mostrarDetalle(int id) {
+    public void mostrarDetalle(String key) {
         /*mostrarFragmentDetalle(id);
         presenter.saveLastBook(id);*/
-        presenter.openDetalle(id);
+        presenter.openDetalle(key);
     }
 
     @Override
@@ -281,14 +281,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void mostrarFragmentDetalle(int id) {
+    public void mostrarFragmentDetalle(String key) {
         DetalleFragment detalleFragment = (DetalleFragment) getFragmentManager().findFragmentById(R.id.detalle_fragment);
         if (detalleFragment != null) {  //estamos en una tableta
-            detalleFragment.ponInfoLibro(id);
+            detalleFragment.ponInfoLibro(key);
         } else {
             DetalleFragment nuevoFragment = new DetalleFragment();
             Bundle args = new Bundle();
-            args.putInt(DetalleFragment.ARG_ID_LIBRO, id);
+            args.putString(DetalleFragment.ARG_ID_LIBRO, key);
             nuevoFragment.setArguments(args);
             FragmentTransaction transaccion = getFragmentManager()
                     .beginTransaction();

@@ -62,6 +62,7 @@ public class AdaptadorLibrosUI extends FirebaseRecyclerAdapter<Libro,AdaptadorLi
     @Override
     public void populateViewHolder(final ViewHolder holder, final Libro libro,  final int posicion) {
         //final Libro libro = vectorLibros.elementAt(posicion);
+
         //holder.portada.setImageResource(libro.recursoImagen);
         /*Aplicacion aplicacion = (Aplicacion) contexto.getApplicationContext();
         aplicacion.getLectorImagenes().get(libro.urlImagen, new ImageLoader.ImageListener() {*/
@@ -103,7 +104,8 @@ public class AdaptadorLibrosUI extends FirebaseRecyclerAdapter<Libro,AdaptadorLi
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clickAction.execute(posicion);
+                //comentado para que compile sin errores
+                // clickAction.execute(posicion);
             }
         });
         holder.titulo.setText(libro.getTitulo());

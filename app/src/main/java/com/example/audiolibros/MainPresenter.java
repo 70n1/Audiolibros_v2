@@ -25,15 +25,15 @@ public class MainPresenter {
         }
     }
 
-    public void openDetalle(int id) {
+    public void openDetalle(String key) {
        // libroStorage.saveLastBook(id);
         //view.mostrarDetalle(id);
-        saveLastBook.execute(id);
-        view.mostrarFragmentDetalle(id);
+        saveLastBook.execute(key);
+        view.mostrarFragmentDetalle(key);
     }
 
     public interface View {
-        void mostrarFragmentDetalle(int lastBook);
+        void mostrarFragmentDetalle(String lastBook);
 
         void mostrarNoUltimaVisita();
     }

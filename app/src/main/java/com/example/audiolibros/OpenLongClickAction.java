@@ -33,9 +33,9 @@ public class OpenLongClickAction implements ClickAction {
     }
 
     @Override
-    public void execute(int pos) {
+    public void execute(final String key) {
 
-        final int id = pos;
+        //final int id = pos;
         AlertDialog.Builder menu = new AlertDialog.Builder(selectorFragment.getActivity());
         CharSequence[] opciones = {"Compartir", "Borrar ", "Insertar"};
         menu.setItems(opciones, new DialogInterface.OnClickListener() {
@@ -46,7 +46,7 @@ public class OpenLongClickAction implements ClickAction {
                         anim.addListener(selectorFragment);
                         anim.setTarget(view);
                         anim.start();
-                        Libro libro = vectorLibros.elementAt(id);
+                        Libro libro = adaptador.getItemByKey(key);
                         Intent i = new Intent(Intent.ACTION_SEND);
                         i.setType("text/plain");
                         i.putExtra(Intent.EXTRA_SUBJECT, libro.getTitulo());
@@ -68,13 +68,14 @@ public class OpenLongClickAction implements ClickAction {
                                 anim.addListener(selectorFragment);
                                 anim.setTarget(view);
                                 anim.start();
-                                adaptador.borrar(id); //adaptador.notifyDataSetChanged();
+                                // compentado para que compile
+                                // adaptador.borrar(id); //adaptador.notifyDataSetChanged();
                             }
                         }).show();
                         break;
                     case 2: //Insertar
                         //int posicion = recyclerView.getChildLayoutPosition(view);
-                        adaptador.insertar((Libro) adaptador.getItem(id));
+                        adaptador.insertar((Libro) adaptador.getItemByKey(key));
                         //adaptador.notifyDataSetChanged();
                         adaptador.notifyItemInserted(0);
                         Snackbar.make(view, "Libro insertado", Snackbar.LENGTH_INDEFINITE).setAction("OK", new View.OnClickListener() {
