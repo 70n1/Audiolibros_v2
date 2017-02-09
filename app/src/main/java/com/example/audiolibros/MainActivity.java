@@ -205,7 +205,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     pref.edit().remove("provider").commit();
                     pref.edit().remove("email").commit();
                     pref.edit().remove("name").commit();
-                    Intent i = new Intent(MainActivity.this, LoginActivity.class);
+                    //Intent i = new Intent(MainActivity.this, LoginActivity.class);
+                    Intent i = new Intent(MainActivity.this, CustomLoginActivity.class);
                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(i);
                     finish();
