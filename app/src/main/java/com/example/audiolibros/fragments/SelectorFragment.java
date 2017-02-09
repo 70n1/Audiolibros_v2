@@ -48,7 +48,7 @@ public class SelectorFragment extends Fragment implements Animator.AnimatorListe
     private Activity actividad;
     private RecyclerView recyclerView;
     private AdaptadorLibrosFiltro adaptador;
-    private Vector<Libro> vectorLibros;
+    //private Vector<Libro> vectorLibros;
 
     @Override
     public void onAttach(Context contexto) {
@@ -58,7 +58,7 @@ public class SelectorFragment extends Fragment implements Animator.AnimatorListe
             Aplicacion app = (Aplicacion) actividad.getApplication();
             LibrosSingleton  librosSingleton = LibrosSingleton.getInstance(contexto);
             adaptador = librosSingleton.getAdaptador();
-            vectorLibros = librosSingleton.getVectorLibros();
+            //vectorLibros = librosSingleton.getVectorLibros();
         }
     }
 
@@ -96,7 +96,8 @@ public class SelectorFragment extends Fragment implements Animator.AnimatorListe
                                 anim.addListener(SelectorFragment.this);
                                 anim.setTarget(v);
                                 anim.start();
-                                Libro libro = vectorLibros.elementAt(id);
+                                //Libro libro = vectorLibros.elementAt(id);
+                                Libro libro = adaptador.getItemById(id);
                                 Intent i = new Intent(Intent.ACTION_SEND);
                                 i.setType("text/plain");
                                 i.putExtra(Intent.EXTRA_SUBJECT, libro.getTitulo());
@@ -126,7 +127,7 @@ public class SelectorFragment extends Fragment implements Animator.AnimatorListe
                                 int posicion = recyclerView.getChildLayoutPosition(v);
                                 adaptador.insertar((Libro) adaptador.getItem(posicion));
                                 //adaptador.notifyDataSetChanged();
-                                adaptador.notifyItemInserted(0);
+                                adaptador.notifyItemInserted(adaptador.getItemCount()+1);
                                 Snackbar.make(v, "Libro insertado", Snackbar.LENGTH_INDEFINITE).setAction("OK", new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
