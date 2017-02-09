@@ -199,7 +199,15 @@ public class SelectorFragment extends Fragment implements Animator.AnimatorListe
     @Override
     public void onResume() {
         ((MainActivity) getActivity()).mostrarElementos(true);
+        adaptador.activaEscuchadorLibros();
         super.onResume();
+    }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        adaptador.desactivaEscuchadorLibros();
     }
 
     /*@Override

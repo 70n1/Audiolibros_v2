@@ -13,20 +13,13 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.ArrayList;
-import java.util.Vector;
 
 /**
  * Created by AMARTIN on 20/12/2016.
  */
 
-public class AdaptadorLibros extends RecyclerView.Adapter<AdaptadorLibros.ViewHolder> implements ChildEventListener {
+public class AdaptadorLibrosUI extends FirebaseRecyclerAdapter<Libro,AdaptadorLibrosUI.ViewHolder> {
     //Crea Layouts a partir del XML
     //protected Vector<Libro> vectorLibros;
     protected DatabaseReference booksReference;
@@ -37,59 +30,16 @@ public class AdaptadorLibros extends RecyclerView.Adapter<AdaptadorLibros.ViewHo
     private Context contexto;
     private ClickAction clickAction = new EmptyClickAction();
 
-    private ArrayList<String> keys;
-    private ArrayList<DataSnapshot> items;
-
     public void setClickAction(ClickAction clickAction) {
         this.clickAction = clickAction;
     }
 
-    public AdaptadorLibros(Context contexto, DatabaseReference reference) {
-        //super(Libro.class, R.layout.elemento_selector, AdaptadorLibros.ViewHolder.class, reference);
-        keys = new ArrayList<String>();
-        items = new ArrayList<DataSnapshot>();
+    public AdaptadorLibrosUI(Context contexto, DatabaseReference reference) {
+        super(Libro.class, R.layout.elemento_selector, AdaptadorLibrosUI.ViewHolder.class, reference);
         inflador = (LayoutInflater) contexto.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         //this.vectorLibros = vectorLibros;
         this.booksReference = reference;
         this.contexto = contexto;
-        booksReference.addChildEventListener(this);
-    }
-
-    @Override
-    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-        items.add(dataSnapshot);
-        keys.add(dataSnapshot.getKey());
-        notifyItemInserted(getItemCount() - 1);
-    }
-
-    @Override
-    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-        String key = dataSnapshot.getKey();
-        int index = keys.indexOf(key);
-        if (index != -1) {
-            items.set(index, dataSnapshot);
-            notifyItemChanged(index, dataSnapshot.getValue(Libro.class));
-        }
-    }
-
-    @Override
-    public void onChildRemoved(DataSnapshot dataSnapshot) {
-        String key = dataSnapshot.getKey();
-        int index = keys.indexOf(key);
-        if (index != -1) {
-            keys.remove(index);
-            items.remove(index);
-            notifyItemRemoved(index);
-        }
-    }
-
-
-    @Override
-    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-    }
-
-    @Override
-    public void onCancelled(DatabaseError databaseError) {
     }
 
     public void setOnItemClickListener(View.OnClickListener onClickListener) {
@@ -110,8 +60,7 @@ public class AdaptadorLibros extends RecyclerView.Adapter<AdaptadorLibros.ViewHo
     } // Usando como base el ViewHolder y lo personalizamos
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, final int posicion) {
-        final Libro libro = getItem(posicion);
+    public void populateViewHolder(final ViewHolder holder, final Libro libro,  final int posicion) {
         //final Libro libro = vectorLibros.elementAt(posicion);
         //holder.portada.setImageResource(libro.recursoImagen);
         /*Aplicacion aplicacion = (Aplicacion) contexto.getApplicationContext();
@@ -180,29 +129,4 @@ public class AdaptadorLibros extends RecyclerView.Adapter<AdaptadorLibros.ViewHo
             titulo = (TextView) itemView.findViewById(R.id.titulo);
         }
     } // Creamos el ViewHolder con las vista de un elemento sin personalizar
-
-    @Override
-    public int getItemCount() {
-        return items.size();
-    }
-
-    public DatabaseReference getRef(int pos) {
-        return items.get(pos).getRef();
-    }
-
-    public Libro getItem(int pos) {
-        return items.get(pos).getValue(Libro.class);
-    }
-
-    public void activaEscuchadorLibros() {
-        //keys = new ArrayList<String>();
-        //items = new ArrayList<DataSnapshot>();
-        //booksReference.addChildEventListener(this);
-        FirebaseDatabase.getInstance().goOnline();
-    }
-
-    public void desactivaEscuchadorLibros() {
-        //booksReference.removeEventListener(this);
-        FirebaseDatabase.getInstance().goOffline();
-    }
 }
