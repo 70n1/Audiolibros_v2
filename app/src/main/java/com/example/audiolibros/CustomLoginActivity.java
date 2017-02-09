@@ -39,6 +39,10 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.TwitterAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
@@ -244,6 +248,7 @@ public class CustomLoginActivity extends FragmentActivity implements GoogleApiCl
     private void doLogin() {
         FirebaseUser currentUser = auth.getCurrentUser();
         if (currentUser != null) {
+            guardarUsuario(currentUser);
             String name = currentUser.getDisplayName();
             String email = currentUser.getEmail();
             String provider = currentUser.getProviders().get(0);
@@ -308,5 +313,28 @@ public class CustomLoginActivity extends FragmentActivity implements GoogleApiCl
     public void openLoginActivity(View view) {
         Intent i = new Intent(this,LoginActivity.class);
         startActivity(i);
+    }
+
+    /*void guardarUsuario(final FirebaseUser user) {
+        DatabaseReference usersReference = ((Aplicacion) getApplicationContext()).getUsersReference();
+        final DatabaseReference currentUserReference = usersReference.child(user.getUid());
+        ValueEventListener userListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.exists()) {
+                    currentUserReference.setValue(new User(user.getDisplayName(), user.getEmail()));
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        };
+        currentUserReference.addListenerForSingleValueEvent(userListener);
+    }*/
+
+    void guardarUsuario(final FirebaseUser user) {
+        DatabaseReference userReference = ((Aplicacion) getApplicationContext()).getUsersReference().child(user.getUid());
+        userReference.setValue(new User(user.getDisplayName(), user.getEmail()));
     }
 }
